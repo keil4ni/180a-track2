@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-"""computes RoBERTa sentiment scores for a text column in a CSV dataset
+"""TRACK 2 sentiment analysis
+purpose: RoBERTa sentiment scores are computed for a text column in a CSV dataset
 
 if you decide to run in a terminal:
     python sentiment.py --input data/reputation_items_all_sources.csv \
-        --text-col title --output data/reputation_items_scored.csv
+        --text-col text --output data/reputation_items_scored.csv
 
 setup:
     pip install -U pandas numpy transformers torch
@@ -13,7 +14,7 @@ import argparse
 import pandas as pd
 from transformers import pipeline
 
-DEFAULT_MODEL = "cardiffnlp/twitter-roberta-base-sentiment-latest"
+DEFAULT_MODEL = "cardiffnlp/twitter-roberta-base-sentiment-latest" # trained on tweets
 
 def run_eda(df: pd.DataFrame) -> None:
     '''
