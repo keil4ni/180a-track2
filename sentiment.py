@@ -56,6 +56,11 @@ def score_sentiment(texts, model_name, batch_size, max_length, device):
     
     # sentiment score from [-1, 1]: P(positive) - P(negative)
     out["sentiment_score"] = out["positive"] - out["negative"]
+
+    # populate sentiment method & version cols for reproducibility
+    out["sentiment_method"] = "RoBERTa"
+    out["sentiment_version"] = model_name
+
     return out.rename(
         columns = {
             "negative": "prob_negative",
@@ -102,6 +107,8 @@ def main():
     )
     scores.index = df.index[mask]
 
+    # drop cols if they already exist, then join new scores to original df
+    df = df.drop(columns=scores.columns, errors="ignore")
     df = df.join(scores)
     df.to_csv(args.output, index=False)
     print(f"Saved to {args.output}")
